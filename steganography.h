@@ -3,6 +3,11 @@
 #include <inttypes.h>
 #include <stdbool.h>
 
+const int EBS_OK = 0;
+const int EBS_ErrorOOM = 1;
+const int EBS_ErrorInvalidMessage = 2;
+const int EBS_ErrorOverflow = 3;
+
 typedef struct EBS_Image {
     uint64_t width;
     uint64_t height;
@@ -20,6 +25,6 @@ typedef struct EBS_Message {
     uint8_t *data;
 } EBS_Message;
 
-bool EBS_MessageEmbed(EBS_ImageList *imageList, const EBS_Message *message, uint64_t squareSize);
+void EBS_MessageEmbed(EBS_ImageList *imageList, const EBS_Message *message, uint64_t squareSize, int *errorCode);
 
-EBS_Message EBS_MessageExtract(EBS_ImageList *imageList, uint64_t squareSize);
+EBS_Message EBS_MessageExtract(EBS_ImageList *imageList, uint64_t squareSize, int *errorCode);
