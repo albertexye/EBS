@@ -26,7 +26,3 @@ install(FILES steganography.h DESTINATION include)
 
 add_executable(Example examples/comprehensive.c)
 target_link_libraries(Example PRIVATE Steganography_static)
-install(TARGETS Example DESTINATION examples)
-if (TARGET Example)
-    install(DIRECTORY examples/samples DESTINATION examples)
-endif()
