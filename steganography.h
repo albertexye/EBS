@@ -3,10 +3,10 @@
 #include <inttypes.h>
 #include <stdbool.h>
 
-const int EBS_OK = 0;
-const int EBS_ErrorOOM = 1;
-const int EBS_ErrorInvalidMessage = 2;
-const int EBS_ErrorOverflow = 3;
+static const int EBS_OK = 0;
+static const int EBS_ErrorOOM = 1;
+static const int EBS_ErrorInvalidMessage = 2;
+static const int EBS_ErrorOverflow = 3;
 
 typedef struct EBS_Image {
     uint64_t width;
