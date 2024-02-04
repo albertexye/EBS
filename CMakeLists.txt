@@ -20,5 +20,5 @@ add_library(Steganography_static STATIC embed.c steganography.h
         shared.c)
 target_link_libraries(Steganography_static PRIVATE xxHash::xxhash)
 
-add_executable(Test examples/comprehensive.c)
-target_link_libraries(Test PRIVATE Steganography_static)
+add_executable(Example examples/comprehensive.c)
+target_link_libraries(Example PRIVATE Steganography_static)
