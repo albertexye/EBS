@@ -4,6 +4,8 @@
 #include <math.h>
 #include <stdlib.h>
 
+#include "xxhash.h"
+
 void EBS_SquareCalcEntropy(const EBS_Image *image, EBS_Square *square, uint64_t squareSize) {
     double entropy = 0.;
     const uint64_t channel = image->channel, width = image->width;
@@ -12,7 +14,7 @@ void EBS_SquareCalcEntropy(const EBS_Image *image, EBS_Square *square, uint64_t 
     uint16_t map[128];
     const uint8_t *start = image->pixels + (square->y * width + square->x) * channel;
     for (uint64_t c = 0; c < channel; ++c, ++start) {
-        memset(map, 0, 128);
+        memset(map, 0, sizeof(map));
         const uint8_t *y_start = start;
         for (uint64_t y = 0; y < squareSize; ++y, y_start += real_width) {
             const uint8_t *x_start = y_start;
@@ -81,6 +83,14 @@ int EBS_ImageCompare(const void *image1, const void *image2) {
     }
     if (ebsImage1->channel != ebsImage2->channel) {
         return ebsImage1->channel > ebsImage2->channel ? 1 : -1;
+    }
+
+    const uint64_t image1Size = ebsImage1->width * ebsImage1->height * ebsImage1->channel;
+    XXH64_hash_t hash1 = XXH64(ebsImage1->pixels, image1Size, 0);
+    const uint64_t image2Size = ebsImage2->width * ebsImage2->height * ebsImage2->channel;
+    XXH64_hash_t hash2 = XXH64(ebsImage2->pixels, image2Size, 0);
+    if (hash1 != hash2) {
+        return hash1 > hash2 ? 1 : -1;
     }
 
     return 0;
