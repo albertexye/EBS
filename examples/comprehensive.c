@@ -5,6 +5,7 @@
 
 #define STB_IMAGE_IMPLEMENTATION
 #define STB_IMAGE_WRITE_IMPLEMENTATION
+
 #include "lib/stb_image.h"
 #include "lib/stb_image_write.h"
 
@@ -27,11 +28,13 @@ EBS_Image openImage(const char *filename) {
     image.width = w;
     image.height = h;
     image.channel = c;
+
     return image;
 }
 
 void saveImage(const EBS_Image *image, const char *filename) {
-    const int code = stbi_write_png(filename, image->width, image->height, image->channel, image->pixels, image->width * image->channel);
+    const int code = stbi_write_png(filename, image->width, image->height, image->channel, image->pixels,
+                                    image->width * image->channel);
     if (code == 0) {
         printf("error saving image '%s', reason: %s\n", filename, stbi_failure_reason());
     }
@@ -51,26 +54,35 @@ uint8_t *randomBytes(uint64_t size) {
 }
 
 int main() {
+    // open images
     EBS_Image sample1 = openImage("./samples/sample1.png");
     EBS_Image sample2 = openImage("./samples/sample2.png");
     EBS_Image sample3 = openImage("./samples/sample3.png");
+
+    // create an ImageList
     EBS_Image images[] = {sample1, sample2, sample3};
     EBS_ImageList imageList = {
-            .size = sizeof(images) / sizeof(images[0]),
-            .images = images
+            .size = sizeof(images) / sizeof(images[0]), // the size of the image list
+            .images = images // a list of images
     };
 
+    // create a random message
     const uint64_t messageSize = 1024 * 1024;
-
     EBS_Message message = {
             .size = messageSize,
             .data = randomBytes(messageSize)
     };
 
-    int err;
+    int err; // the error code
 
-    EBS_MessageEmbed(&imageList, &message, 16, &err);
-    if (err != EBS_OK) {
+    // embed
+    EBS_MessageEmbed(
+            &imageList,
+            &message,
+            16, // the square size, shouldn't be larger than 256
+            &err // receive the error code
+    );
+    if (err != EBS_OK) { // handle the error code
         printf("error while embedding, code %d\n", err);
         free(message.data);
         closeImage(&sample1);
@@ -79,12 +91,18 @@ int main() {
         return err;
     }
 
+    // save the images with data embedded
     saveImage(&sample1, "samples/embedded1.png");
     saveImage(&sample2, "samples/embedded2.png");
     saveImage(&sample3, "samples/embedded3.png");
 
-    EBS_Message extracted = EBS_MessageExtract(&imageList, 16, &err);
-    if (err != EBS_OK) {
+    // extract
+    EBS_Message extracted = EBS_MessageExtract(
+            &imageList, // the image list with data embedded
+            16, // the square size, shouldn't be larger than 256
+            &err // receive the error code
+    );
+    if (err != EBS_OK) { // handle the error code
         printf("error while extracting, code %d\n", err);
         free(message.data);
         closeImage(&sample1);
@@ -93,19 +111,20 @@ int main() {
         return err;
     }
 
+    // check the result
     if (extracted.size != message.size || memcmp(extracted.data, message.data, message.size) != 0) {
         printf("unexpected extracted data, expected %s, got %s\n", message.data, extracted.data);
         free(message.data);
-        free(extracted.data);
+        free(extracted.data); // the extracted message needs to be manually freed
         closeImage(&sample1);
         closeImage(&sample2);
         closeImage(&sample3);
         return err;
     }
 
+    // clean up
     free(message.data);
-    free(extracted.data);
-
+    free(extracted.data); // the extracted message needs to be manually freed
     closeImage(&sample1);
     closeImage(&sample2);
     closeImage(&sample3);

@@ -3,7 +3,8 @@
 #include <string.h>
 #include <stdlib.h>
 
-void EBS_SquareExtract(const EBS_Image *image, const EBS_Square *square, uint64_t squareSize, uint8_t *data, uint64_t dataSize) {
+void EBS_SquareExtract(const EBS_Image *image, const EBS_Square *square, uint64_t squareSize, uint8_t *data,
+                       uint64_t dataSize) {
     const uint64_t realWidth = image->width * image->channel;
     uint64_t index = 0, bit = 0;
     uint8_t *yStart = image->pixels + square->y * realWidth + square->x * image->channel;
@@ -42,7 +43,7 @@ EBS_Message EBS_MessageExtract(EBS_ImageList *imageList, uint64_t squareSize, in
         const uint64_t maxComputedImageIndex = EBS_ComputedImageListMaxEntropy(&computedImageList, squareIndex);
         EBS_ComputedImage *maxComputedImage = computedImageList.computedImages + maxComputedImageIndex;
         EBS_SquareExtract(&maxComputedImage->image, maxComputedImage->squareList.squares, squareSize,
-                        (uint8_t *) &message.size, sizeof(message.size));
+                          (uint8_t *) &message.size, sizeof(message.size));
         ++squareIndex[maxComputedImageIndex];
     }
 
@@ -64,7 +65,8 @@ EBS_Message EBS_MessageExtract(EBS_ImageList *imageList, uint64_t squareSize, in
         uint64_t messagePieceSize = maxComputedImage->squareList.squareCapacity;
         if (messagePieceSize > message.size - messageIndex) {
             messagePieceSize = message.size - messageIndex;
-            EBS_SquareExtract(&maxComputedImage->image, square, squareSize, message.data + messageIndex, messagePieceSize);
+            EBS_SquareExtract(&maxComputedImage->image, square, squareSize, message.data + messageIndex,
+                              messagePieceSize);
             break;
         }
         EBS_SquareExtract(&maxComputedImage->image, square, squareSize, message.data + messageIndex, messagePieceSize);

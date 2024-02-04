@@ -57,7 +57,8 @@ void EBS_MessageEmbed(EBS_ImageList *imageList, const EBS_Message *message, uint
         uint64_t messagePieceSize = maxComputedImage->squareList.squareCapacity;
         if (messagePieceSize > message->size - messageIndex) {
             messagePieceSize = message->size - messageIndex;
-            EBS_SquareEmbed(&maxComputedImage->image, square, squareSize, message->data + messageIndex, messagePieceSize);
+            EBS_SquareEmbed(&maxComputedImage->image, square, squareSize, message->data + messageIndex,
+                            messagePieceSize);
             break;
         }
         EBS_SquareEmbed(&maxComputedImage->image, square, squareSize, message->data + messageIndex, messagePieceSize);
