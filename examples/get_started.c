@@ -1,4 +1,4 @@
-#include "../steganography.h"
+#include "../src/steganography.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -53,7 +53,7 @@ uint8_t *randomBytes(uint64_t size) {
     return buffer;
 }
 
-int main() {
+int main(void) {
     // open images
     EBS_Image sample1 = openImage("./samples/sample1.png");
     EBS_Image sample2 = openImage("./samples/sample2.png");
