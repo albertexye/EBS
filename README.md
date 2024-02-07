@@ -1,6 +1,6 @@
-# Steganography
+# Entropy Based Steganography (EBS)
 
-Steganography is a C library designed for embedding data into different areas of images based on the entropy of the
+Entropy Based Steganography (EBS) is a C library designed for embedding data into different areas of images based on the entropy of the
 area. This library provides a powerful tool for hiding information within images, utilizing the concept of entropy to
 ensure the produced images are small enough.
 
@@ -20,13 +20,13 @@ To use the Steganography library, follow these steps:
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/albertexye/Steganography.git
+   git clone https://github.com/albertexye/EBS.git
    ```
 
 2. Build the library:
 
    ```bash
-   cd Steganography
+   cd EBS
    mkdir build
    cmake ..
    make
@@ -49,7 +49,7 @@ To use the Steganography library, follow these steps:
 1. Find the package in CMakeLists.txt (installation required):
 
    ```cmake
-   find_package(Steganography REQUIRED)
+   find_package(EBS REQUIRED)
    ```
 
 2. Include the Steganography header as well as other libraries in your C code:
@@ -62,7 +62,7 @@ To use the Steganography library, follow these steps:
    #define STB_IMAGE_IMPLEMENTATION
    #include "lib/stb_image.h"
    
-   #include "steganography.h"
+   #include "EBS/EBS.h"
    ```
    
 3. Create a Message
@@ -147,7 +147,7 @@ To use the Steganography library, follow these steps:
 
 ## Examples
 
-Explore the [examples](examples/) for sample code snippets and use cases.
+Explore the [examples](examples) for sample code snippets and use cases.
 
 ## License
 

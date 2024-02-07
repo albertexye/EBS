@@ -1,4 +1,4 @@
-#include "../src/steganography.h"
+#include "EBS/EBS.h"
 
 #include <stdio.h>
 #include <string.h>

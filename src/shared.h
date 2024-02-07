@@ -1,6 +1,6 @@
 #pragma once
 
-#include "steganography.h"
+#include "EBS.h"
 
 #include <stddef.h>
 

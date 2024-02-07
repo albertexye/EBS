@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(Steganography LANGUAGES C VERSION 0.0.1)
+project(EBS LANGUAGES C VERSION 0.0.1)
 set(CMAKE_C_STANDARD 99)
 
 find_package(xxHash 0.7 CONFIG REQUIRED)
@@ -56,7 +56,7 @@ target_include_directories(${PROJECT_NAME}_tests
 )
 
 set(${PROJECT_NAME}_PUBLIC_HEADERS
-        src/steganography.h
+        src/EBS.h
 )
 
 set_target_properties(${PROJECT_NAME}
