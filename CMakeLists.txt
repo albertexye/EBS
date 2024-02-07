@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.1)
+cmake_minimum_required(VERSION 3.5)
 project(Steganography LANGUAGES C VERSION 0.0.1)
 set(CMAKE_C_STANDARD 99)
 
