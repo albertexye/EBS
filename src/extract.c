@@ -29,6 +29,11 @@ EBS_Message EBS_MessageExtract(EBS_ImageList *imageList, uint64_t squareSize, in
             .data = NULL
     };
 
+    if (!EBS_CheckSquareSize(squareSize)) {
+        *errorCode = EBS_ErrorBadSquareSize;
+        return message;
+    }
+
     EBS_ComputedImageList computedImageList = EBS_ComputedImageListCreate(imageList, squareSize);
     if (computedImageList.computedImages == NULL) {
         *errorCode = EBS_ErrorOOM;

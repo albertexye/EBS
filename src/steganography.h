@@ -30,6 +30,16 @@ static const int EBS_ErrorInvalidMessage = 2;
  */
 static const int EBS_ErrorOverflow = 3;
 
+/**
+ * Bad Square Size.
+ * Could occur when embedding or extracting messages.
+ * It indicates that your square size doesn't meet the requirements:
+ * \code{.c}
+ * squareSize != 0 && squareSize % 4 == 0 && squareSize < 255
+ * \endcode
+ */
+static const int EBS_ErrorBadSquareSize = 4;
+
 typedef struct EBS_Image {
     uint64_t width;
     uint64_t height;
@@ -63,8 +73,22 @@ void EBS_MessageEmbed(EBS_ImageList *imageList, const EBS_Message *message, uint
  * @param imageList A list of images to extract from. The memory should be handled by the caller.
  * @param squareSize The size of squares the image is split into to calculate local entropy. No larger than 256.
  * @param errorCode The error code if there's any. If there's no error, EBS_OK/0 is set.
- * @return The message extracted. The memory needs to be freed by the caller by calling \code{.c} free(message.data); \endcode
+ * @return The message extracted. The memory needs to be freed by the caller by calling
+ * \code{.c}
+ * free(message.data);
+ * \endcode
  *
  * Note that the squareSize has to be the same as when the message was embedded, otherwise you might get wrong data.
  */
 EBS_Message EBS_MessageExtract(EBS_ImageList *imageList, uint64_t squareSize, int *errorCode);
+
+/**
+ * @brief Free a \b Message returned by \b EBS_MessageExtract.
+ * It's equal to
+ * \code{.c}
+ * free(message->data);
+ * message->data = NULL;
+ * \endcode
+ * @param message The message to be freed. message.data will be set to NULL
+ */
+void EBS_MessageFree(EBS_Message *message);

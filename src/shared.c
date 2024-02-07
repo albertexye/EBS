@@ -165,3 +165,12 @@ uint64_t EBS_ComputedImageListCapacity(const EBS_ComputedImageList *computedImag
     }
     return capacity;
 }
+
+void EBS_MessageFree(EBS_Message *message) {
+    free(message->data);
+    message->data = NULL;
+}
+
+bool EBS_CheckSquareSize(uint64_t squareSize) {
+    return squareSize != 0 && squareSize % 4 == 0 && squareSize < 256;
+}

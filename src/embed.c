@@ -24,6 +24,11 @@ void EBS_SquareEmbed(EBS_Image *image, const EBS_Square *square, uint64_t square
 }
 
 void EBS_MessageEmbed(EBS_ImageList *imageList, const EBS_Message *message, uint64_t squareSize, int *errorCode) {
+    if (!EBS_CheckSquareSize(squareSize)) {
+        *errorCode = EBS_ErrorBadSquareSize;
+        return;
+    }
+
     EBS_ComputedImageList computedImageList = EBS_ComputedImageListCreate(imageList, squareSize);
     if (computedImageList.computedImages == NULL) {
         *errorCode = EBS_ErrorOOM;
