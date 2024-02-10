@@ -12,7 +12,13 @@ endif()
 add_library(${PROJECT_NAME} STATIC)
 target_link_libraries(${PROJECT_NAME} PRIVATE xxHash::xxhash)
 
-add_executable(${PROJECT_NAME}_tests)
+add_executable(${PROJECT_NAME}_tests
+        tests/tests.c
+        tests/embed_tests.h
+        tests/case_loader.h
+        tests/case_loader.c
+        tests/extract_tests.c
+        tests/extract_tests.h)
 target_link_libraries(${PROJECT_NAME}_tests PRIVATE ${PROJECT_NAME} unity::framework)
 
 if (TARGET ${PROJECT_NAME}_tests)
