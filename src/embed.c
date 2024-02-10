@@ -4,6 +4,7 @@
 
 void EBS_SquareEmbed(EBS_Image *image, const EBS_Square *square, uint64_t squareSize, const uint8_t *data,
                      uint64_t dataSize) {
+    if (dataSize == 0) return;
     const uint64_t channel = image->channel;
     const uint64_t realWidth = image->width * channel;
     uint64_t index = 0, bit = 0;
@@ -26,6 +27,11 @@ void EBS_SquareEmbed(EBS_Image *image, const EBS_Square *square, uint64_t square
 void EBS_MessageEmbed(EBS_ImageList *imageList, const EBS_Message *message, uint64_t squareSize, int *errorCode) {
     if (!EBS_CheckSquareSize(squareSize)) {
         *errorCode = EBS_ErrorBadSquareSize;
+        return;
+    }
+
+    if (!EBS_CheckImageList(imageList)) {
+        *errorCode = EBS_ErrorInvalidImage;
         return;
     }
 

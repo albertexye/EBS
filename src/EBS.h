@@ -1,7 +1,6 @@
 #pragma once
 
 #include <inttypes.h>
-#include <stdbool.h>
 
 /**
  * OK Code.
@@ -33,12 +32,22 @@ static const int EBS_ErrorOverflow = 3;
 /**
  * Bad Square Size.
  * Could occur when embedding or extracting messages.
- * It indicates that your square size doesn't meet the requirements:
+ * It indicates that your square size doesn't meet the following requirements:
  * \code{.c}
  * squareSize != 0 && squareSize % 4 == 0 && squareSize < 255
  * \endcode
  */
 static const int EBS_ErrorBadSquareSize = 4;
+
+/**
+ * Invalid Image.
+ * Could occur when embedding or extracting messages.
+ * It indicates that one or more of the images passed do not meet the following requirements:
+ * \code{.c}
+ * image->width != 0 && image->height != 0 && image->channel != 0 && image->pixels != NULL
+ * \endcode
+ */
+static const int EBS_ErrorInvalidImage = 5;
 
 typedef struct EBS_Image {
     uint64_t width;
