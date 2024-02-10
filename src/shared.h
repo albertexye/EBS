@@ -3,6 +3,7 @@
 #include "EBS.h"
 
 #include <stddef.h>
+#include <stdbool.h>
 
 typedef struct EBS_Square {
     uint64_t x;
@@ -45,3 +46,7 @@ uint64_t EBS_ComputedImageListMaxEntropy(const EBS_ComputedImageList *computedIm
 uint64_t EBS_ComputedImageListCapacity(const EBS_ComputedImageList *computedImageList);
 
 bool EBS_CheckSquareSize(uint64_t squareSize);
+
+bool EBS_CheckImage(const EBS_Image *image);
+
+bool EBS_CheckImageList(const EBS_ImageList *imageList);

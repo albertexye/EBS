@@ -174,3 +174,17 @@ void EBS_MessageFree(EBS_Message *message) {
 bool EBS_CheckSquareSize(uint64_t squareSize) {
     return squareSize != 0 && squareSize % 4 == 0 && squareSize < 256;
 }
+
+bool EBS_CheckImage(const EBS_Image *image) {
+    return image->width != 0 && image->height != 0 && image->channel != 0 && image->pixels != NULL;
+}
+
+bool EBS_CheckImageList(const EBS_ImageList *imageList) {
+    for (uint64_t i = 0; i < imageList->size; ++i) {
+        const EBS_Image *image = imageList->images + i;
+        if (!EBS_CheckImage(image)) {
+            return false;
+        }
+    }
+    return true;
+}
