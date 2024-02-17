@@ -10,16 +10,13 @@ if (MSVC)
     set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 endif()
 
-add_library(${PROJECT_NAME} STATIC)
+add_library(${PROJECT_NAME} SHARED)
 target_link_libraries(${PROJECT_NAME} PRIVATE xxHash::xxhash)
 
-add_executable(${PROJECT_NAME}_tests
-        tests/tests.c
-        tests/embed_tests.h
-        tests/case_loader.h
-        tests/case_loader.c
-        tests/extract_tests.c
-        tests/extract_tests.h)
+add_library(${PROJECT_NAME}Static STATIC)
+target_link_libraries(${PROJECT_NAME}Static PRIVATE xxHash::xxhash)
+
+add_executable(${PROJECT_NAME}_tests)
 target_link_libraries(${PROJECT_NAME}_tests PRIVATE ${PROJECT_NAME} unity::framework)
 
 add_executable(${PROJECT_NAME}_cpp_example)
@@ -37,8 +34,20 @@ include(CMakePackageConfigHelpers)
 
 target_sources(${PROJECT_NAME}
         PRIVATE
-        src/embed.c
+        include/EBS/EBS.h
         src/embed.h
+        src/embed.c
+        src/extract.h
+        src/extract.c
+        src/shared.h
+        src/shared.c
+)
+
+target_sources(${PROJECT_NAME}Static
+        PRIVATE
+        include/EBS/EBS.h
+        src/embed.h
+        src/embed.c
         src/extract.h
         src/extract.c
         src/shared.h
@@ -48,6 +57,18 @@ target_sources(${PROJECT_NAME}
 target_sources(${PROJECT_NAME}_tests
         PRIVATE
         tests/embed_tests.c
+        tests/case_loader.h
+        tests/case_loader.c
+        tests/extract_tests.h
+        tests/extract_tests.c
+)
+
+target_sources(${PROJECT_NAME}_c_example
+        PRIVATE
+        include/EBS/EBS.h
+        examples/c_example.c
+)
+
 target_sources(${PROJECT_NAME}_cpp_example
         PRIVATE
         include/EBS/EBS.hpp
@@ -64,6 +85,22 @@ target_include_directories(${PROJECT_NAME}
 
 target_include_directories(${PROJECT_NAME}_tests
         PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
+        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}>
+        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+)
+
+target_include_directories(${PROJECT_NAME}_c_example
+        PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
+        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}>
+        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+)
+
 target_include_directories(${PROJECT_NAME}_cpp_example
         PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
