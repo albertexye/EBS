@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
-project(EBS LANGUAGES C VERSION 0.0.1)
+project(EBS LANGUAGES C CXX VERSION 0.0.1)
 set(CMAKE_C_STANDARD 99)
+set(CMAKE_CXX_STANDARD 11)
 
 find_package(xxHash 0.7 CONFIG REQUIRED)
 find_package(unity QUIET)
@@ -20,6 +21,10 @@ add_executable(${PROJECT_NAME}_tests
         tests/extract_tests.c
         tests/extract_tests.h)
 target_link_libraries(${PROJECT_NAME}_tests PRIVATE ${PROJECT_NAME} unity::framework)
+
+add_executable(${PROJECT_NAME}_cpp_example)
+target_link_libraries(${PROJECT_NAME}_cpp_example PRIVATE ${PROJECT_NAME})
+set_target_properties(${PROJECT_NAME}_cpp_example PROPERTIES LANGUAGE CXX)
 
 if (TARGET ${PROJECT_NAME}_tests)
     if (NOT unity_FOUND)
@@ -43,6 +48,10 @@ target_sources(${PROJECT_NAME}
 target_sources(${PROJECT_NAME}_tests
         PRIVATE
         tests/embed_tests.c
+target_sources(${PROJECT_NAME}_cpp_example
+        PRIVATE
+        include/EBS/EBS.hpp
+        examples/cpp_example.cpp
 )
 
 target_include_directories(${PROJECT_NAME}
@@ -55,6 +64,9 @@ target_include_directories(${PROJECT_NAME}
 
 target_include_directories(${PROJECT_NAME}_tests
         PUBLIC
+target_include_directories(${PROJECT_NAME}_cpp_example
+        PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}>
@@ -62,7 +74,8 @@ target_include_directories(${PROJECT_NAME}_tests
 )
 
 set(${PROJECT_NAME}_PUBLIC_HEADERS
-        src/EBS.h
+        include/EBS/EBS.h
+        include/EBS/EBS.hpp
 )
 
 set_target_properties(${PROJECT_NAME}
