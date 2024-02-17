@@ -1,6 +1,6 @@
 #pragma once
 
-#include "EBS.h"
+#include "../include/EBS/EBS.h"
 
 #include <stddef.h>
 #include <stdbool.h>
