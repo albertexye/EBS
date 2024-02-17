@@ -14,7 +14,7 @@ ensure the produced images are small enough.
 - [xxHash](https://github.com/Cyan4973/xxHash)
 - [Unity Test](https://github.com/ThrowTheSwitch/Unity) (Testing Only)
 
-## Installation
+## Installation (C/C++)
 
 To use the Steganography library, follow these steps:
 
@@ -45,7 +45,7 @@ To use the Steganography library, follow these steps:
    make install
    ```
 
-## Usage
+## Usage (C)
 
 1. Find the package in CMakeLists.txt (installation required):
 
@@ -148,7 +148,7 @@ To use the Steganography library, follow these steps:
 
 ## Examples
 
-Explore the [examples](examples) for sample code snippets and use cases.
+Explore the [examples](examples) for sample code snippets and use cases in C as well as other languages.
 
 ## License
 
