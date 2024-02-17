@@ -19,6 +19,9 @@ target_link_libraries(${PROJECT_NAME}Static PRIVATE xxHash::xxhash)
 add_executable(${PROJECT_NAME}_tests)
 target_link_libraries(${PROJECT_NAME}_tests PRIVATE ${PROJECT_NAME} unity::framework)
 
+add_executable(${PROJECT_NAME}_c_example)
+target_link_libraries(${PROJECT_NAME}_c_example PRIVATE ${PROJECT_NAME})
+
 add_executable(${PROJECT_NAME}_cpp_example)
 target_link_libraries(${PROJECT_NAME}_cpp_example PRIVATE ${PROJECT_NAME})
 set_target_properties(${PROJECT_NAME}_cpp_example PROPERTIES LANGUAGE CXX)
@@ -56,6 +59,8 @@ target_sources(${PROJECT_NAME}Static
 
 target_sources(${PROJECT_NAME}_tests
         PRIVATE
+        tests/tests.c
+        tests/embed_tests.h
         tests/embed_tests.c
         tests/case_loader.h
         tests/case_loader.c
