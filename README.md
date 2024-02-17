@@ -12,6 +12,7 @@ ensure the produced images are small enough.
 ## Dependencies
 
 - [xxHash](https://github.com/Cyan4973/xxHash)
+- [Unity Test](https://github.com/ThrowTheSwitch/Unity)
 
 ## Installation
 
