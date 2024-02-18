@@ -1,2 +1,3 @@
-void test_SquareEmbed(void);
+#pragma once
 
+void test_SquareEmbed(void);
