@@ -69,6 +69,8 @@ EBS_SquareList EBS_SquareListCreate(const EBS_Image *image, uint64_t squareSize)
 void EBS_SquareListFree(EBS_SquareList *squareList) {
     free(squareList->squares);
     squareList->squares = NULL;
+    squareList->size = 0;
+    squareList->squareCapacity = 0;
 }
 
 int EBS_ImageCompare(const void *image1, const void *image2) {
@@ -126,6 +128,7 @@ void EBS_ComputedImageListFree(EBS_ComputedImageList *computedImageList) {
     }
     free(computedImageList->computedImages);
     computedImageList->computedImages = NULL;
+    computedImageList->size = 0;
 }
 
 uint64_t EBS_ComputedImageListFindMaxEntropy(const EBS_ComputedImageList *computedImageList, const uint64_t *squareIndex) {
@@ -169,6 +172,7 @@ uint64_t EBS_ComputedImageListCalcCapacity(const EBS_ComputedImageList *computed
 void EBS_MessageFree(EBS_Message *message) {
     free(message->data);
     message->data = NULL;
+    message->size = 0;
 }
 
 bool EBS_SquareSizeCheck(uint64_t squareSize) {
