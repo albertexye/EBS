@@ -114,9 +114,10 @@ EBS_ComputedImageList EBS_ComputedImageListCreate(EBS_ImageList *imageList, uint
 
     for (uint64_t i = 0; i < imageList->size; ++i) {
         const EBS_Image *image = imageList->images + i;
+        EBS_SquareList squareList = EBS_SquareListCreate(image, squareSize);
         EBS_ComputedImage computedImage = {
                 .image = *image,
-                .squareList = EBS_SquareListCreate(image, squareSize)
+                .squareList = squareList
         };
         if (computedImage.squareList.squares == NULL) {
             EBS_ComputedImageListFree(&computedImageList);
