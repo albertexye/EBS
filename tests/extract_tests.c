@@ -7,10 +7,6 @@
 #include <stdlib.h>
 
 void test_SquareExtract_single(const char *filename, uint64_t squareSize, uint64_t channels) {
-    char message[128];
-    sprintf(message, "Testing %s (%llux%llux%llu)", filename, squareSize, squareSize, channels);
-    TEST_MESSAGE(message);
-
     Case aCase = loadCase(filename);
     if (aCase.size == 0) TEST_FAIL_MESSAGE("Failed to load the case");
 
