@@ -17,7 +17,7 @@ add_library(${PROJECT_NAME}Static STATIC)
 target_link_libraries(${PROJECT_NAME}Static PRIVATE xxHash::xxhash)
 
 add_executable(${PROJECT_NAME}_tests)
-target_link_libraries(${PROJECT_NAME}_tests PRIVATE ${PROJECT_NAME} unity::framework)
+target_link_libraries(${PROJECT_NAME}_tests PRIVATE xxHash::xxhash unity::framework)
 
 add_executable(${PROJECT_NAME}_c_example)
 target_link_libraries(${PROJECT_NAME}_c_example PRIVATE ${PROJECT_NAME})
@@ -68,6 +68,13 @@ target_sources(${PROJECT_NAME}_tests
         tests/extract_tests.c
         tests/shared_tests.c
         tests/shared_tests.h
+        include/EBS/EBS.h
+        src/embed.h
+        src/embed.c
+        src/extract.h
+        src/extract.c
+        src/shared.h
+        src/shared.c
 )
 
 target_sources(${PROJECT_NAME}_c_example
