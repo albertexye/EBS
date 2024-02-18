@@ -25,12 +25,12 @@ void EBS_SquareEmbed(EBS_Image *image, const EBS_Square *square, uint64_t square
 }
 
 void EBS_MessageEmbed(EBS_ImageList *imageList, const EBS_Message *message, uint64_t squareSize, int *errorCode) {
-    if (!EBS_CheckSquareSize(squareSize)) {
+    if (!EBS_SquareSizeCheck(squareSize)) {
         *errorCode = EBS_ErrorBadSquareSize;
         return;
     }
 
-    if (!EBS_CheckImageList(imageList)) {
+    if (!EBS_ImageListCheck(imageList)) {
         *errorCode = EBS_ErrorInvalidImage;
         return;
     }
@@ -41,7 +41,7 @@ void EBS_MessageEmbed(EBS_ImageList *imageList, const EBS_Message *message, uint
         return;
     }
 
-    const uint64_t capacity = EBS_ComputedImageListCapacity(&computedImageList);
+    const uint64_t capacity = EBS_ComputedImageListCalcCapacity(&computedImageList);
     if (message->size > capacity) {
         EBS_ComputedImageListFree(&computedImageList);
         *errorCode = EBS_ErrorOverflow;
@@ -53,7 +53,7 @@ void EBS_MessageEmbed(EBS_ImageList *imageList, const EBS_Message *message, uint
     memset(squareIndex, 0, computedImageList.size * sizeof(uint64_t));
 
     {
-        const uint64_t maxComputedImageIndex = EBS_ComputedImageListMaxEntropy(&computedImageList, squareIndex);
+        const uint64_t maxComputedImageIndex = EBS_ComputedImageListFindMaxEntropy(&computedImageList, squareIndex);
         EBS_ComputedImage *maxComputedImage = computedImageList.computedImages + maxComputedImageIndex;
         EBS_SquareEmbed(&maxComputedImage->image, maxComputedImage->squareList.squares, squareSize,
                         (const uint8_t *) &message->size, sizeof(message->size));
@@ -61,7 +61,7 @@ void EBS_MessageEmbed(EBS_ImageList *imageList, const EBS_Message *message, uint
     }
 
     while (true) {
-        const uint64_t maxComputedImageIndex = EBS_ComputedImageListMaxEntropy(&computedImageList, squareIndex);
+        const uint64_t maxComputedImageIndex = EBS_ComputedImageListFindMaxEntropy(&computedImageList, squareIndex);
         EBS_ComputedImage *maxComputedImage = computedImageList.computedImages + maxComputedImageIndex;
 
         const EBS_Square *square = maxComputedImage->squareList.squares + squareIndex[maxComputedImageIndex];

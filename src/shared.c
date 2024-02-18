@@ -128,7 +128,7 @@ void EBS_ComputedImageListFree(EBS_ComputedImageList *computedImageList) {
     computedImageList->computedImages = NULL;
 }
 
-uint64_t EBS_ComputedImageListMaxEntropy(const EBS_ComputedImageList *computedImageList, const uint64_t *squareIndex) {
+uint64_t EBS_ComputedImageListFindMaxEntropy(const EBS_ComputedImageList *computedImageList, const uint64_t *squareIndex) {
     uint64_t maxComputedImageIndex = 0;
     double maxEntropy = 0.;
     if (squareIndex) {
@@ -152,14 +152,14 @@ uint64_t EBS_ComputedImageListMaxEntropy(const EBS_ComputedImageList *computedIm
     return maxComputedImageIndex;
 }
 
-uint64_t EBS_ComputedImageListCapacity(const EBS_ComputedImageList *computedImageList) {
+uint64_t EBS_ComputedImageListCalcCapacity(const EBS_ComputedImageList *computedImageList) {
     uint64_t capacity = 0;
     for (uint64_t i = 0; i < computedImageList->size; ++i) {
         const EBS_SquareList *squareList = &computedImageList->computedImages[i].squareList;
         capacity += squareList->size * squareList->squareCapacity;
     }
     {
-        const uint64_t maxComputedImageIndex = EBS_ComputedImageListMaxEntropy(computedImageList, NULL);
+        const uint64_t maxComputedImageIndex = EBS_ComputedImageListFindMaxEntropy(computedImageList, NULL);
         EBS_ComputedImage *maxComputedImage = computedImageList->computedImages + maxComputedImageIndex;
         capacity -= maxComputedImage->squareList.squareCapacity;
     }
@@ -171,18 +171,18 @@ void EBS_MessageFree(EBS_Message *message) {
     message->data = NULL;
 }
 
-bool EBS_CheckSquareSize(uint64_t squareSize) {
+bool EBS_SquareSizeCheck(uint64_t squareSize) {
     return squareSize != 0 && squareSize % 4 == 0 && squareSize < 256;
 }
 
-bool EBS_CheckImage(const EBS_Image *image) {
+bool EBS_ImageCheck(const EBS_Image *image) {
     return image->width != 0 && image->height != 0 && image->channel != 0 && image->pixels != NULL;
 }
 
-bool EBS_CheckImageList(const EBS_ImageList *imageList) {
+bool EBS_ImageListCheck(const EBS_ImageList *imageList) {
     for (uint64_t i = 0; i < imageList->size; ++i) {
         const EBS_Image *image = imageList->images + i;
-        if (!EBS_CheckImage(image)) {
+        if (!EBS_ImageCheck(image)) {
             return false;
         }
     }

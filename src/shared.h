@@ -41,12 +41,12 @@ EBS_ComputedImageList EBS_ComputedImageListCreate(EBS_ImageList *imageList, uint
 
 void EBS_ComputedImageListFree(EBS_ComputedImageList *computedImageList);
 
-uint64_t EBS_ComputedImageListMaxEntropy(const EBS_ComputedImageList *computedImageList, const uint64_t *squareIndex);
+uint64_t EBS_ComputedImageListFindMaxEntropy(const EBS_ComputedImageList *computedImageList, const uint64_t *squareIndex);
 
-uint64_t EBS_ComputedImageListCapacity(const EBS_ComputedImageList *computedImageList);
+uint64_t EBS_ComputedImageListCalcCapacity(const EBS_ComputedImageList *computedImageList);
 
-bool EBS_CheckSquareSize(uint64_t squareSize);
+bool EBS_SquareSizeCheck(uint64_t squareSize);
 
-bool EBS_CheckImage(const EBS_Image *image);
+bool EBS_ImageCheck(const EBS_Image *image);
 
-bool EBS_CheckImageList(const EBS_ImageList *imageList);
+bool EBS_ImageListCheck(const EBS_ImageList *imageList);
