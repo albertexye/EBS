@@ -38,8 +38,8 @@ void test_SquareExtract_single(const char *filename, uint64_t squareSize, uint64
 }
 
 void test_SquareExtract(void) {
-    test_SquareExtract_single("./cases/case_32x32x1", 32, 1);
-    test_SquareExtract_single("./cases/case_32x32x2", 32, 2);
-    test_SquareExtract_single("./cases/case_32x32x3", 32, 3);
-    test_SquareExtract_single("./cases/case_32x32x4", 32, 4);
+    test_SquareExtract_single("./tests/cases/case_32x32x1", 32, 1);
+    test_SquareExtract_single("./tests/cases/case_32x32x2", 32, 2);
+    test_SquareExtract_single("./tests/cases/case_32x32x3", 32, 3);
+    test_SquareExtract_single("./tests/cases/case_32x32x4", 32, 4);
 }

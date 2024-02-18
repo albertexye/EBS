@@ -39,8 +39,8 @@ void test_SquareEmbed_single(const char *filename, uint64_t squareSize, uint64_t
 }
 
 void test_SquareEmbed(void) {
-    test_SquareEmbed_single("./cases/case_32x32x1", 32, 1);
-    test_SquareEmbed_single("./cases/case_32x32x2", 32, 2);
-    test_SquareEmbed_single("./cases/case_32x32x3", 32, 3);
-    test_SquareEmbed_single("./cases/case_32x32x4", 32, 4);
+    test_SquareEmbed_single("./tests/cases/case_32x32x1", 32, 1);
+    test_SquareEmbed_single("./tests/cases/case_32x32x2", 32, 2);
+    test_SquareEmbed_single("./tests/cases/case_32x32x3", 32, 3);
+    test_SquareEmbed_single("./tests/cases/case_32x32x4", 32, 4);
 }
