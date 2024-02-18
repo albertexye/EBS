@@ -87,15 +87,20 @@ int EBS_ImageCompare(const void *image1, const void *image2) {
         return ebsImage1->channel > ebsImage2->channel ? 1 : -1;
     }
 
-    const uint64_t image1Size = ebsImage1->width * ebsImage1->height * ebsImage1->channel;
-    XXH64_hash_t hash1 = XXH64(ebsImage1->pixels, image1Size, 0);
-    const uint64_t image2Size = ebsImage2->width * ebsImage2->height * ebsImage2->channel;
-    XXH64_hash_t hash2 = XXH64(ebsImage2->pixels, image2Size, 0);
-    if (hash1 != hash2) {
-        return hash1 > hash2 ? 1 : -1;
+    // if the sizes are the same, compare the content
+    const uint64_t imageSize = ebsImage1->width * ebsImage1->height * ebsImage1->channel;
+
+    // 64 bits first, in most cases it's enough
+    const XXH64_hash_t hash64_1 = XXH3_64bits(ebsImage1->pixels, imageSize);
+    const XXH64_hash_t hash64_2 = XXH3_64bits(ebsImage2->pixels, imageSize);
+    if (hash64_1 != hash64_2) {
+        return hash64_1 > hash64_2 ? 1 : -1;
     }
 
-    return 0;
+    // 128 bits if the 64-bit hashes are identical
+    const XXH128_hash_t hash128_1 = XXH3_128bits(ebsImage1->pixels, imageSize);
+    const XXH128_hash_t hash128_2 = XXH3_128bits(ebsImage2->pixels, imageSize);
+    return XXH128_cmp(&hash128_1, &hash128_2);
 }
 
 EBS_ComputedImageList EBS_ComputedImageListCreate(EBS_ImageList *imageList, uint64_t squareSize) {
