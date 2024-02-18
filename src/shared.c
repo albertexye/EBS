@@ -77,6 +77,7 @@ int EBS_ImageCompare(const void *image1, const void *image2) {
     const EBS_Image *ebsImage1 = image1;
     const EBS_Image *ebsImage2 = image2;
 
+    // compare by size first
     if (ebsImage1->width != ebsImage2->width) {
         return ebsImage1->width > ebsImage2->width ? 1 : -1;
     }
