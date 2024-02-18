@@ -66,6 +66,8 @@ target_sources(${PROJECT_NAME}_tests
         tests/case_loader.c
         tests/extract_tests.h
         tests/extract_tests.c
+        tests/shared_tests.c
+        tests/shared_tests.h
 )
 
 target_sources(${PROJECT_NAME}_c_example
