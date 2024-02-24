@@ -49,6 +49,9 @@ static const int EBS_ErrorBadSquareSize = 4;
  */
 static const int EBS_ErrorInvalidImage = 5;
 
+/**
+ * Image represents an image loaded in memory
+ */
 typedef struct EBS_Image {
     uint64_t width;
     uint64_t height;
@@ -56,14 +59,20 @@ typedef struct EBS_Image {
     uint8_t *pixels;
 } EBS_Image;
 
+/**
+ * ImageList represents a list of images loaded in memory.
+ */
 typedef struct EBS_ImageList {
-    uint64_t size;
-    EBS_Image *images;
+    uint64_t size; /* The size of the image list, which is the number of images */
+    EBS_Image *images; /* The pointer to the images */
 } EBS_ImageList;
 
+/**
+ * Message represents a message to embed to or to be extracted from images.
+ */
 typedef struct EBS_Message {
-    uint64_t size;
-    uint8_t *data;
+    uint64_t size; /* The size of the message in bytes */
+    uint8_t *data; /* The pointer to the data */
 } EBS_Message;
 
 /**

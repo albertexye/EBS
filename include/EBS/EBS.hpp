@@ -10,6 +10,9 @@ extern "C" {
 
 
 namespace EBS {
+    /**
+     * The error types that can be thrown
+     */
     enum class ErrorType {
         OOM = EBS_ErrorOOM,
         InvalidMessage = EBS_ErrorInvalidMessage,
@@ -18,6 +21,9 @@ namespace EBS {
         InvalidImage = EBS_ErrorInvalidImage
     };
 
+    /**
+     * An error with its error type
+     */
     class Error : public std::exception {
     private:
         const ErrorType error;
@@ -49,15 +55,33 @@ namespace EBS {
         }
     };
 
+    /**
+     * A list of images.
+     */
     typedef std::vector<std::shared_ptr<Image>> ImageList;
+    /**
+     * uint8_t array representing data
+     */
     typedef std::vector<uint8_t> Data;
 
+    /**
+     * Message to embed or extract.
+     */
     class Message {
     private:
         const uint64_t squareSize;
     public:
+        /**
+         * @param squareSize The square size for calculating the regional entropy. This has to be the same when embedding and extracting messages, otherwise unexpected data will be decoded.
+         */
         explicit Message(uint64_t squareSize) : squareSize{squareSize} {}
 
+        /**
+         * @brief Embed data into an image list.
+         * @param imageList The image list to embed the data into.
+         * @param data The data to be embedded into.
+         * Remember to check the potential error.
+         */
         void embed(ImageList &imageList, const Data &data) const {
             auto images = new EBS_Image[imageList.size()];
             for (uint64_t i = 0; i < imageList.size(); ++i) {
@@ -74,6 +98,12 @@ namespace EBS {
             delete[] images;
         }
 
+        /**
+         * @brief Extract data from an image list.
+         * @param imageList The image list to extract data from.
+         * @return The data extracted.
+         * Remember to check the potential errors.
+         */
         Data extract(const ImageList &imageList) const {
             auto images = new EBS_Image[imageList.size()];
             for (uint64_t i = 0; i < imageList.size(); ++i) {
