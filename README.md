@@ -148,7 +148,7 @@ To use the Steganography library, follow these steps:
 
 ## Examples
 
-Explore the [examples](examples) for sample code snippets and use cases in C as well as other languages.
+Explore the [examples](examples) for sample code snippets and use cases in C and C++.
 
 ## License
 
