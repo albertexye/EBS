@@ -1,4 +1,5 @@
 #include <vector>
+#include <memory>
 #include <exception>
 #include <string>
 #include <sstream>

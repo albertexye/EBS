@@ -11,20 +11,20 @@ if (MSVC)
 endif()
 
 add_library(${PROJECT_NAME} SHARED)
-target_link_libraries(${PROJECT_NAME} PRIVATE xxHash::xxhash)
+target_link_libraries(${PROJECT_NAME} PRIVATE xxHash::xxhash m)
 
 add_library(${PROJECT_NAME}Static STATIC)
-target_link_libraries(${PROJECT_NAME}Static PRIVATE xxHash::xxhash)
+target_link_libraries(${PROJECT_NAME}Static PRIVATE xxHash::xxhash m)
 
 add_executable(${PROJECT_NAME}_tests)
-target_link_libraries(${PROJECT_NAME}_tests PRIVATE xxHash::xxhash unity::framework)
+target_link_libraries(${PROJECT_NAME}_tests PRIVATE xxHash::xxhash unity::framework m)
 
 add_executable(${PROJECT_NAME}_c_example)
-target_link_libraries(${PROJECT_NAME}_c_example PRIVATE ${PROJECT_NAME})
+target_link_libraries(${PROJECT_NAME}_c_example PRIVATE ${PROJECT_NAME} m)
 
 add_executable(${PROJECT_NAME}_cpp_example)
 target_link_libraries(${PROJECT_NAME}_cpp_example PRIVATE ${PROJECT_NAME})
-set_target_properties(${PROJECT_NAME}_cpp_example PROPERTIES LANGUAGE CXX)
+set_target_properties(${PROJECT_NAME}_cpp_example PROPERTIES LANGUAGE CXX m stdc++)
 
 if (TARGET ${PROJECT_NAME}_tests)
     if (NOT unity_FOUND)
